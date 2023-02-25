@@ -1,4 +1,9 @@
 ﻿using Amazon.Lambda.Core;
+using Amazon.Lambda.APIGatewayEvents;
+using System.Text.Json;
+using Nuve.Lang;
+using Nuve.Morphologic.Structure;
+
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -8,19 +13,27 @@ namespace nuve_lambda
     public class Function
     {
 
-        /// <summary>
-        /// A simple function that takes a string and returns both the upper and lower case version of the string.
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public Casing FunctionHandler(string input, ILambdaContext context)
+        public APIGatewayHttpApiV2ProxyResponse FunctionHandler(APIGatewayHttpApiV2ProxyRequest request, ILambdaContext context)
         {
-            System.Console.WriteLine("Hello World");
-            return new Casing(input.ToLower(), input.ToUpper());
-            
+            var tr = LanguageFactory.Create(LanguageType.Turkish);
+            var data = JsonSerializer.Deserialize<Payload>(request.Body);
+
+
+            List<Analysis> analyses = new List<Analysis>();
+
+            foreach (string word in data.words)
+            {
+                IEnumerable<Word> solutions = tr.Analyze(word);
+                IEnumerable<string> enumerable = solutions.Select(x => x.ToString());
+                analyses.Add(new Analysis(enumerable));
+            }
+
+
+            return new APIGatewayHttpApiV2ProxyResponse
+            {
+                Body = JsonSerializer.Serialize(analyses),
+                StatusCode = 200
+            };
         }
     }
-
-    public record Casing(string Lower, string Upper);
 }

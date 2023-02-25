@@ -1,11 +1,11 @@
 import * as cdk from 'aws-cdk-lib';
 import { Template, Match } from 'aws-cdk-lib/assertions';
-import * as Infra from '../lib/infra-stack';
+import * as NuveInfra from '../lib/nuve-infra-stack';
 
 test('SQS Queue and SNS Topic Created', () => {
   const app = new cdk.App();
   // WHEN
-  const stack = new Infra.InfraStack(app, 'MyTestStack');
+  const stack = new NuveInfra.NuveInfraStack(app, 'MyTestStack');
   // THEN
 
   const template = Template.fromStack(stack);

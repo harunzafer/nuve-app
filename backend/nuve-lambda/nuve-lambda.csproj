@@ -11,6 +11,8 @@
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.3.0" />
+    <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.5.0" />
+    <PackageReference Include="nuve" Version="2.0.0" />
   </ItemGroup>
 
 </Project>

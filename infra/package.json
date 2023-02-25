@@ -1,8 +1,8 @@
 {
-  "name": "infra",
+  "name": "nuve-infra",
   "version": "0.1.0",
   "bin": {
-    "infra": "bin/infra.js"
+    "nuve-infra": "bin/nuve-infra.js"
   },
   "scripts": {
     "build": "tsc",
